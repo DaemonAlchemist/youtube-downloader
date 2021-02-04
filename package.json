@@ -1,0 +1,22 @@
+{
+  "name": "youtube-downloader",
+  "version": "0.0.0",
+  "description": "A local Youtube downloader client",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaemonAlchemist/youtube-downloader.git"
+  },
+  "author": "Andrew Wittrock",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DaemonAlchemist/youtube-downloader/issues"
+  },
+  "homepage": "https://github.com/DaemonAlchemist/youtube-downloader#readme",
+  "dependencies": {
+    "youtube-dl": "^3.1.0"
+  }
+}
