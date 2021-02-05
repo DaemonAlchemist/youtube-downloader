@@ -1,0 +1,71 @@
+body {
+  background: #666666;
+  color: #aaaaaa;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 32px;
+}
+
+h1 svg {
+  color: #ff6666;
+}
+
+form {
+  text-align: center;
+}
+
+form input{
+  font-size: x-large;
+  padding: 8px;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  border: solid 1px #aaaaaa;
+  width: calc(100% - 128px);
+}
+
+form button {
+  font-size: x-large;
+  padding: 8px;
+  border: solid 1px #aaaaaa;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border-left: 0;
+  width: 48px;
+}
+
+ul#download-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+ul#download-list li {
+  border-top: solid 1px;
+  padding: 16px;
+  position: relative;
+}
+
+ul#download-list li:first-child {
+  border: none;
+}
+
+ul#download-list li button {
+  float: right;
+  border-radius: 8px;
+  border: solid 1px #aaaaaa;
+}
+
+ul#download-list li .progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #226622;
+  z-index: -1;
+}
