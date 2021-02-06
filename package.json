@@ -41,7 +41,7 @@
       "package.json"
     ],
     "extraFiles": [
-      "bin"
+      {"from": "bin", "to": "resources/bin"}
     ],
     "afterSign": ".erb/scripts/Notarize.js",
     "mac": {

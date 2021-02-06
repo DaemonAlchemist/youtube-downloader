@@ -1,10 +1,10 @@
+import { faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { faDownload, faFolder } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { remote } from "electron";
 import React, { SyntheticEvent } from 'react';
 import './App.global.css';
-import {remote} from "electron";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faDownload, faFolder, faTimes} from "@fortawesome/free-solid-svg-icons";
-import {faYoutube} from "@fortawesome/free-brands-svg-icons";
-import { download, IVideoInfo } from './downloader';
+import { DownloadListItem } from './components/DownloadListItem';
 
 interface IOpenFileResults {
   canceled: boolean;
@@ -13,35 +13,6 @@ interface IOpenFileResults {
 }
 
 const dialog = remote.require("electron").dialog;
-
-const DownloadListItem = (props:{url:string, path:string}) => {
-  const [path] = React.useState<string>(props.path);
-  const [title, setTitle] = React.useState<string>("");
-  const [totalBytes, setTotalBytes] = React.useState(0);
-  const [percentDone, setPercentDone] = React.useState(0);
-  const [complete, setComplete] = React.useState(false);
-
-  React.useEffect(() => {
-    download({
-      url: props.url,
-      onComplete: () => {
-        console.log("Download complete");
-        setTimeout(() => setComplete(true), 5000);
-      },
-      onGetTitle: setTitle,
-      onGetSize: setTotalBytes,
-      onProgress: setPercentDone,
-      path,
-    });
-  }, [props.url]);
-
-  return <>
-    {!complete && <li key={props.url}>
-      <div className="progress-bar" style={{width: `${percentDone * 100}%`}} />
-      Downloading <em>{title || props.url} ({totalBytes} bytes)</em>
-    </li>}
-  </>;
-}
 
 export const App = () => {
   const [newUrl, setNewUrl] = React.useState<string>("");
@@ -55,13 +26,14 @@ export const App = () => {
     setNewUrl("");
   }
 
-  const [path, setPath] = React.useState<string>(__dirname);
+  const [path, setPath] = React.useState<string>(localStorage.getItem("currentDirectory") || "C:/Movies");
   const chooseDirectory = (e:SyntheticEvent<any>) => {
     e.preventDefault();
     dialog.showOpenDialog({properties: ['openDirectory']}).then((results:IOpenFileResults) => {
       console.log(results);
       if(!results.canceled && results.filePaths.length > 0) {
         setPath(results.filePaths[0]);
+        localStorage.setItem("currentDirectory", results.filePaths[0]);
       }
     });
   }
