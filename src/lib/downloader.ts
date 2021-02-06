@@ -17,6 +17,7 @@ const getTitle = (url:string):Promise<string> => new Promise((resolve, reject) =
 interface IDownloadOptions {
     url: string;
     path: string;
+    format: string;
     onGetTitle: (title:string) => void;
     onGetSize: (size:number) => void;
     onProgress: (percentDone:number) => void;
@@ -32,7 +33,7 @@ export const download = (options:IDownloadOptions) => {
         console.log(`Starting download of ${title}`);
         const video = youtubedl(
             options.url,
-            ['--format=18'],
+            options.format === "mp4" ? ['--format', 'mp4'] : ['--format', 'bestaudio', '--extract-audio', '--audio-format', 'mp3'],
             { cwd: __dirname }
         );
 
@@ -53,7 +54,7 @@ export const download = (options:IDownloadOptions) => {
 
         video.on('end', options.onComplete);
 
-        const fullFileName = `${options.path}/${sanitize(title)}.mp4`;
+        const fullFileName = `${options.path}/${sanitize(title)}.${options.format}`;
         console.log(`Saving to ${fullFileName}`);
 
         video.pipe(fs.createWriteStream(fullFileName));

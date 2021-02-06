@@ -1,6 +1,8 @@
 body {
   background: #666666;
   color: #aaaaaa;
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
@@ -12,27 +14,28 @@ h1 svg {
   color: #ff6666;
 }
 
-form {
+#form {
   text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
-form input{
+#form input{
   font-size: x-large;
   padding: 8px;
-  border-top-left-radius: 16px;
-  border-bottom-left-radius: 16px;
+  border-radius: 16px;
   border: solid 1px #aaaaaa;
-  width: calc(100% - 128px);
+  width: 95%;
+  margin: 0;
 }
 
-form button {
+#form button {
   font-size: x-large;
   padding: 8px;
   border: solid 1px #aaaaaa;
-  border-top-right-radius: 16px;
-  border-bottom-right-radius: 16px;
+  border-radius: 16px;
   border-left: 0;
-  width: 48px;
+  margin: 8px;
 }
 
 ul#download-list {
