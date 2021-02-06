@@ -25,7 +25,8 @@ export const DownloadListItem = (props:{url:string, path:string}) => {
     return <>
       {!complete && <li key={props.url}>
         <div className="progress-bar" style={{width: `${percentDone * 100}%`}} />
-        Downloading <em>{title || props.url} ({totalBytes} bytes)</em>
+        Downloading <em>{title || props.url} {!title && <>(fetching title)</>}</em>
+        {totalBytes ? <>({totalBytes} bytes)</> : <>(fetching size)</>}
       </li>}
     </>;
   }

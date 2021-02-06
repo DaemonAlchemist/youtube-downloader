@@ -24,9 +24,12 @@ interface IDownloadOptions {
 }
 
 export const download = (options:IDownloadOptions) => {
+    console.log("Getting title");
     getTitle(options.url).then((title:string) => {
+        console.log(`Got title: ${title}`);
         options.onGetTitle(title);
 
+        console.log(`Starting download of ${title}`);
         const video = youtubedl(
             options.url,
             ['--format=18'],
@@ -51,7 +54,7 @@ export const download = (options:IDownloadOptions) => {
         video.on('end', options.onComplete);
 
         const fullFileName = `${options.path}/${sanitize(title)}.mp4`;
-        console.log(fullFileName);
+        console.log(`Saving to ${fullFileName}`);
 
         video.pipe(fs.createWriteStream(fullFileName));
     });
