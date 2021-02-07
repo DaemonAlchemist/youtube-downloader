@@ -72,3 +72,7 @@ ul#download-list li .progress-bar {
   background: #226622;
   z-index: -1;
 }
+
+ul#download-list li div.status {
+  float: right;
+}

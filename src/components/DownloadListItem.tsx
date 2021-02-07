@@ -1,4 +1,4 @@
-import { faSpinner, faVideo, faVolumeUp } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faVideo, faVolumeUp, faCog, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { IDownloadInfo } from '../App';
@@ -9,6 +9,7 @@ export const DownloadListItem = (props:{info:IDownloadInfo}) => {
     const [totalBytes, setTotalBytes] = React.useState(0);
     const [percentDone, setPercentDone] = React.useState(0);
     const [complete, setComplete] = React.useState(false);
+    const [status, setStatus] = React.useState("Initializing...");
 
     const {url, path, format} = props.info;
   
@@ -22,6 +23,7 @@ export const DownloadListItem = (props:{info:IDownloadInfo}) => {
         },
         onGetTitle: setTitle,
         onGetSize: setTotalBytes,
+        onSetStatus: setStatus,
         onProgress: setPercentDone,
         path,
       });
@@ -33,7 +35,14 @@ export const DownloadListItem = (props:{info:IDownloadInfo}) => {
         {format === "mp4" && <FontAwesomeIcon icon={faVideo} />}
         {format === "mp3" && <FontAwesomeIcon icon={faVolumeUp} />}
         &nbsp;
-        Downloading <em>{title || url} {(!title || !totalBytes) && <FontAwesomeIcon icon={faSpinner} spin/>}</em>
+        {title || url}
+        <div className="status">
+          {status === "Initializing..." && <FontAwesomeIcon icon={faCog} spin />}
+          {status === "Downloading..." && <FontAwesomeIcon icon={faSpinner} spin />}
+          {status === "Converting to MP3..." && <FontAwesomeIcon icon={faSyncAlt} spin />}
+          &nbsp;
+          {status}
+        </div>
         {!!totalBytes && <>({totalBytes} bytes)</>}
       </li>}
     </>;
