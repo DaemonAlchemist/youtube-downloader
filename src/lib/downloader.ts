@@ -1,6 +1,7 @@
 import fs from 'fs';
 import youtubedl from 'youtube-dl';
 import sanitize from 'sanitize-filename';
+import {exec} from "child_process";
 
 export interface IVideoInfo {
     title: string;
@@ -52,10 +53,21 @@ export const download = (options:IDownloadOptions) => {
             options.onProgress(totalDownloaded / size);
         })
 
-        video.on('end', options.onComplete);
-
-        const fullFileName = `${options.path}/${sanitize(title)}.${options.format}`;
+        const ext = options.format === "mp4" ? "mp4" : "m4a";
+        const fullFileName = `${options.path}/${sanitize(title)}.${ext}`;
         console.log(`Saving to ${fullFileName}`);
+
+        video.on('end', () => {
+            if(options.format === "mp4") {
+                options.onComplete();
+            } else {
+                const mp3FileName = `${options.path}/${sanitize(title)}.mp3`;
+                exec(`ffmpeg -i "${fullFileName}" "${mp3FileName}"`, () => {
+                    // fs.rm(fullFileName, () => {});
+                    options.onComplete();
+                })
+            }
+        });
 
         video.pipe(fs.createWriteStream(fullFileName));
     });
