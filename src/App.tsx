@@ -1,5 +1,5 @@
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-import { faFolder, faVideo, faVolumeUp } from "@fortawesome/free-solid-svg-icons";
+import { faFolder, faVideo, faVolumeUp, faCog, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { remote } from "electron";
 import React, { SyntheticEvent } from 'react';
@@ -27,18 +27,26 @@ export const App = () => {
   const [downloads, setDownloads] = React.useState<IDownloadInfo[]>([]);
   const startDownload = (format:string) => () => {
     if(!newUrl) {return;}
-    setDownloads(oldDownloads => [...oldDownloads, {url: newUrl, path, format}]);
+    setDownloads(oldDownloads => [
+      ...oldDownloads,
+      {
+        url: newUrl,
+        path: format === "mp4" ? videoPath: audioPath,
+        format
+      }
+    ]);
     setNewUrl("");
   }
 
-  const [path, setPath] = React.useState<string>(localStorage.getItem("currentDirectory") || "C:/Movies");
-  const chooseDirectory = (e:SyntheticEvent<any>) => {
+  const [videoPath, setVideoPath] = React.useState<string>(localStorage.getItem("currentVideoDirectory") || "C:/Movies");
+  const [audioPath, setAudioPath] = React.useState<string>(localStorage.getItem("currentAudioDirectory") || "C:/Music");
+  const chooseDirectory = (setPath:((path:string) => void), name:string) => (e:SyntheticEvent<any>) => {
     e.preventDefault();
     dialog.showOpenDialog({properties: ['openDirectory']}).then((results:IOpenFileResults) => {
       console.log(results);
       if(!results.canceled && results.filePaths.length > 0) {
         setPath(results.filePaths[0]);
-        localStorage.setItem("currentDirectory", results.filePaths[0]);
+        localStorage.setItem(name, results.filePaths[0]);
       }
     });
   }
@@ -53,10 +61,28 @@ export const App = () => {
     </div>
 
     <ul id="download-list">
+      <li className="header"><h2><FontAwesomeIcon icon={faCog} /> Settings</h2></li>
       <li>
-        <button onClick={chooseDirectory}><FontAwesomeIcon icon={faFolder} /> Save in...</button>
-        {path}
+        <button onClick={chooseDirectory(setVideoPath, "currentVideoDirectory")}>
+          <span className="fa-layers fa-fw">
+            <FontAwesomeIcon icon={faFolder} />
+            <FontAwesomeIcon icon={faVideo} inverse transform="shrink-6" />
+          </span>
+          Save video in...
+        </button>
+        {videoPath}
       </li>
+      <li>
+        <button onClick={chooseDirectory(setAudioPath, "currentAudioDirectory")}>
+        <span className="fa-layers fa-fw">
+            <FontAwesomeIcon icon={faFolder} />
+            <FontAwesomeIcon icon={faVolumeUp} inverse transform="shrink-6" />
+          </span>
+          Save audio in...
+        </button>
+        {audioPath}
+      </li>
+      <li className="header"><h2><FontAwesomeIcon icon={faDownload} /> Downloads</h2></li>
       {downloads.map(download=> <DownloadListItem key={download.url} info={download}/>)}
     </ul>
   </>;

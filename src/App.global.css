@@ -54,6 +54,14 @@ ul#download-list li {
   position: relative;
 }
 
+ul#download-list li.header {
+ background: #444444;
+}
+
+ul#download-list li h2 {
+  margin: 0;
+}
+
 ul#download-list li:first-child {
   border: none;
 }
