@@ -38,6 +38,11 @@ export const App = () => {
     setNewUrl("");
   }
 
+  const startBothFormatDownload = () => {
+    startDownload("mp4")();
+    startDownload("mp3")();
+  }
+
   const [videoPath, setVideoPath] = React.useState<string>(localStorage.getItem("currentVideoDirectory") || "C:/Movies");
   const [audioPath, setAudioPath] = React.useState<string>(localStorage.getItem("currentAudioDirectory") || "C:/Music");
   const chooseDirectory = (setPath:((path:string) => void), name:string) => (e:SyntheticEvent<any>) => {
@@ -58,6 +63,7 @@ export const App = () => {
       <input id="url-input" placeholder="Video URL" value={newUrl} onChange={updateUrl} />
       <button type="submit" onClick={startDownload("mp4")}><FontAwesomeIcon icon={faVideo} /> Download Video</button>
       <button type="submit" onClick={startDownload("mp3")}><FontAwesomeIcon icon={faVolumeUp} /> Download MP3</button>
+      <button type="submit" onClick={startBothFormatDownload}><FontAwesomeIcon icon={faDownload} /> Download both</button>
     </div>
 
     <ul id="download-list">
