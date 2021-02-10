@@ -5,6 +5,8 @@ import { remote } from "electron";
 import React, { SyntheticEvent } from 'react';
 import './App.global.css';
 import { DownloadListItem } from './components/DownloadListItem';
+import YouTube from 'react-youtube';
+import { url } from "inspector";
 
 interface IOpenFileResults {
   canceled: boolean;
@@ -25,8 +27,12 @@ export const App = () => {
   const updateUrl = (e:React.ChangeEvent<HTMLInputElement>) => {setNewUrl(e.currentTarget.value);}
 
   const [downloads, setDownloads] = React.useState<IDownloadInfo[]>([]);
+  const [lastDownload, setLastDownload] = React.useState<string>(localStorage.getItem("lastDownload") || "");
   const startDownload = (format:string) => () => {
     if(!newUrl) {return;}
+    const videoId = new URL(newUrl).searchParams.get("v") || "";
+    setLastDownload(videoId);
+    localStorage.setItem("lastDownload", videoId);
     setDownloads(oldDownloads => [
       ...oldDownloads,
       {
@@ -56,7 +62,18 @@ export const App = () => {
     });
   }
 
+  const videoOptions = {
+    height: '100vh',
+    width: 'auto',
+    playerVars: {
+      autoplay: 1 as (0 | 1 | undefined),
+    },
+  };
+
   return <>
+    <div id="youtube-player">
+      {lastDownload && <iframe src={`https://www.youtube.com/embed/${lastDownload}?autoplay=1&controls=0&loop=1&mute=1`} frameBorder="0"/>}
+    </div>
     <h1><FontAwesomeIcon icon={faYoutube} /> Youtube Downloader</h1>
 
     <div id="form">
