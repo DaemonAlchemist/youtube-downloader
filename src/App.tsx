@@ -1,12 +1,10 @@
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-import { faFolder, faVideo, faVolumeUp, faCog, faDownload } from "@fortawesome/free-solid-svg-icons";
+import { faCog, faDownload, faFolder, faVideo, faVolumeUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { remote } from "electron";
 import React, { SyntheticEvent } from 'react';
 import './App.global.css';
 import { DownloadListItem } from './components/DownloadListItem';
-import YouTube from 'react-youtube';
-import { url } from "inspector";
 
 interface IOpenFileResults {
   canceled: boolean;
@@ -61,14 +59,6 @@ export const App = () => {
       }
     });
   }
-
-  const videoOptions = {
-    height: '100vh',
-    width: 'auto',
-    playerVars: {
-      autoplay: 1 as (0 | 1 | undefined),
-    },
-  };
 
   return <>
     <div id="youtube-player">

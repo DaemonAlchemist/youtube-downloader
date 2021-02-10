@@ -12,6 +12,7 @@ div#youtube-player {
   height: 100vh;
   opacity: 10%;
   width: 100%;
+  z-index: -9;
 }
 
 div#youtube-player iframe {
