@@ -87,6 +87,12 @@ ul#download-list li button {
   border: solid 1px #aaaaaa;
 }
 
+ul#download-list li .failed-download {
+  margin: -16px;
+  padding: 16px;
+  background: #662222;
+}
+
 ul#download-list li .progress-bar {
   position: absolute;
   top: 0;

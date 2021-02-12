@@ -8,10 +8,26 @@ export interface IVideoInfo {
     size: number;
 }
 
+export interface IError {
+    shortMessage: string;
+    command: string;
+    exitCode: number;
+    stdout: string;
+    stderr: string;
+    failed: boolean;
+    timedOut: boolean;
+    isCanceled: boolean;
+    killed: boolean;
+}
+
 const getTitle = (url:string):Promise<string> => new Promise((resolve, reject) => {
     youtubedl.getInfo(url, (err:any, info:IVideoInfo) => {
         console.log(info);
-        resolve(info.title);
+        if(!err) {
+            resolve(info.title);
+        } else {
+            reject(err);
+        }
     })
 });
 
@@ -24,6 +40,7 @@ interface IDownloadOptions {
     onProgress: (percentDone:number) => void;
     onSetStatus: (status:string) => void;
     onComplete: () => void;
+    onFailed: (err:string) => void;
 }
 
 export const download = (options:IDownloadOptions) => {
@@ -76,5 +93,7 @@ export const download = (options:IDownloadOptions) => {
         });
 
         video.pipe(createWriteStream(fullFileName));
+    }).catch((err) => {
+        options.onFailed(err.stderr);
     });
 }
