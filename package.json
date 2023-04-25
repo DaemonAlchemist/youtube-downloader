@@ -98,15 +98,15 @@
     "url": "git+https://github.com/DaemonAlchemist/youtube-downloader.git"
   },
   "author": {
-    "name": "Andrew Wittrock",
-    "email": "andy@wittrock.us",
-    "url": "https://andy.wittrock.us"
+    "name": "DaemonAlchemist",
+    "email": "",
+    "url": ""
   },
   "contributors": [
     {
-      "name": "Andrew Wittrock",
-      "email": "andy@wittrock.us",
-      "url": "https://andy.wittrock.us"
+      "name": "DaemonAlchemist",
+      "email": "",
+      "url": ""
     }
   ],
   "license": "MIT",
